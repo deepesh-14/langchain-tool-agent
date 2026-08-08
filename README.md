@@ -1,15 +1,26 @@
 # langchain-tool-agent
 
-A tool-calling AI agent built with LangChain and Mistral AI. The agent decides on its own which tool to call based on the user's query, with human-in-the-loop approval before any tool executes.
+A series of LangChain + Mistral AI projects exploring tool-calling agents — from a simple news summarizer to manual tool selection to a fully autonomous tool-calling agent.
+
+## Projects
+
+### 1. News Summarizer
+Fetches and summarizes the latest news for a given topic/city using Tavily Search.
+
+### 2. Manual Tool Selection
+User manually chooses which tool to invoke (weather or news) — no LLM-based routing.
+
+### 3. Autonomous Tool-Calling Agent
+The LLM decides on its own which tool to call based on the user's query (dynamic tool binding), with human-in-the-loop approval before execution.
 
 ## Features
 
-- **Dynamic tool selection** — the LLM decides which tool to call (no hardcoded routing)
+- **Dynamic tool selection** — the LLM decides which tool to call (no hardcoded routing) in the autonomous agent
 - **Human-in-the-loop approval** — every tool call must be approved before execution
 - **Multi-turn conversation** — maintains message history across the session
 - **Custom tools**:
   - `get_weather` — real-time weather for a city (OpenWeatherMap API)
-  - `latest_news` — latest news for a city (Tavily Search API)
+  - `latest_news` — latest news for a city/topic (Tavily Search API)
 
 ## Tech Stack
 
@@ -45,13 +56,19 @@ A tool-calling AI agent built with LangChain and Mistral AI. The agent decides o
 
 ## Usage
 
+Each project can be run independently:
+
 ```bash
-python main.py
+python news_summarizer.py       # News summarizer
+python manual_tool_select.py    # Manual tool selection
+python auto_tool_agent.py       # Autonomous tool-calling agent
 ```
 
-Type your query (e.g. "What's the weather in Lucknow?" or "Latest news in Mumbai"). The agent will propose a tool call — approve it with `yes` or reject with `no`. Type `exit` to quit.
+(Update filenames above to match your actual script names.)
 
-## Example
+For the autonomous agent, type your query (e.g. "What's the weather in Lucknow?" or "Latest news in Mumbai"). The agent will propose a tool call — approve it with `yes` or reject with `no`. Type `exit` to quit.
+
+### Example (autonomous agent)
 
 ```
 you: what's the weather in Delhi?
@@ -59,7 +76,7 @@ agent wants to call the tool get_weather approve yes/no: yes
 Weather in Delhi: clear sky, 34°c
 ```
 
-## How it works
+## How the autonomous agent works
 
 1. User sends a message
 2. The LLM (bound with tool definitions) decides whether a tool is needed
